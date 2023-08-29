@@ -133,9 +133,11 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         print('hi')
-        if db.session.get(User, request.form.get("email")):
+        if db.session.execute(db.select(User).where(User.email == request.form.get('email'))).scalar():
+            print('gotcha')
             flash("That email is already in our system")
             return render_template("register.html", form=form)
+        print('doei')
         if db.session.get(User, request.form.get("username")):
             flash("That username is already in our system")
             return render_template("register.html", form=form)
