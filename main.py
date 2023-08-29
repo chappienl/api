@@ -191,8 +191,8 @@ def show_post(post_id):
             flash("You need to login or register to comment.")
             return redirect(url_for("login"))
         new_comment = Comment()
-        message = request.form.get('message').strip("<p>")
-        new_comment.message = message.replace("</p>", "")
+        message = request.form.get('message').replace("<p>", "").replace("</p>", "\n").replace("&amp;", "&").replace("&#39;", "'").replace('&quot;', '"')
+        new_comment.message = message
         new_comment.author = current_user.name
         new_comment.post_id = requested_post.id
         new_comment.author_id = current_user.id
