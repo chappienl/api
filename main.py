@@ -110,15 +110,19 @@ def admin_only(func):
 def get_user(id):
     ''' function gets user and returns NONE if not found '''
     try:
+        print('im totally here')
         name = db.session.get(User, id)
+        print('this didnt work')
         return name
     except:
+        print('gotten here')
         return None
 
 
 @login_manager.user_loader
 def load_user(user_id):
     ''' function to login user '''
+    print('loading user')
     return get_user(user_id)
 
 
@@ -128,6 +132,7 @@ def register():
     ''' function to register new user, validates with data in database'''
     form = RegisterForm()
     if form.validate_on_submit():
+        print('hi')
         if db.session.get(User, request.form.get("email")):
             flash("That email is already in our system")
             return render_template("register.html", form=form)
@@ -137,12 +142,16 @@ def register():
         if request.form.get('password') != request.form.get('repeat_password'):
             flash("Please enter the same passwords")
             return render_template("register.html", form=form)
+        print('ok here')
         new_user = User()
         new_user.name = request.form.get('username')
+        print('done')
         new_user.email = request.form.get('email')
         new_user.password = generate_password_hash(request.form.get('password'), method='pbkdf2:sha256', salt_length=8)
+        print('here too')
         db.session.add(new_user)
         db.session.commit()
+        print('database worked')
         return redirect(url_for('login'))
     return render_template("register.html", form=form)
 
@@ -151,6 +160,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     ''' retrieves user data from database, checks password and checks user in. '''
+    print('gotten here')
     form = LoginForm()
     if form.validate_on_submit():
         if not db.session.execute(db.select(User).where(User.email == request.form.get('email'))).scalar():
