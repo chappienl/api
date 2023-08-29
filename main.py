@@ -27,11 +27,11 @@ This will install the packages from the requirements.txt for this project.
 
 # SET UP EMAIL BY SMTPLIB
 # gmail settings --> 2-step ver --> set-up --> 2-step ver again --> App password --> copy password.
-my_email = "your.website.contact.email@gmail.com"
+my_email = os.environ.get('email')
 password = os.environ.get('gmail')
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.environ.get('flask')
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 csrf = CSRFProtect
@@ -45,7 +45,7 @@ gravatar = Gravatar(app, size=100, rating='r', default='retro', force_default=Fa
 
 
 # CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI', "sqlite:///posts.db")
 db = SQLAlchemy()
 db.init_app(app)
 
@@ -289,7 +289,7 @@ def contact():
             connection.login(user=my_email, password=password)
             connection.sendmail(
                 from_addr=data['email'],
-                to_addrs="ikbenpipo@yahoo.com",
+                to_addrs=f"{os.environ.get('to_email')}",
                 msg=f"Subject: Contact Post\n\n"
                     f"You've received a message from: {data['name']}\n"
                     f"Message:\n"
@@ -306,4 +306,4 @@ def contact():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(debug=False)
