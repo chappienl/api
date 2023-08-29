@@ -40,7 +40,7 @@ def password_data(min=10, max=25):
 
 # TODO: Create a RegisterForm to register new users
 class RegisterForm(FlaskForm):
-    email = EmailField("Email", validators=[DataRequired(), my_email_check])
+    email = EmailField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired(), password_data(min=10)])
     repeat_password = PasswordField("Re-enter Password", validators=[DataRequired(), password_data(min=10)])
     username = StringField("Username", validators=[DataRequired()])
@@ -51,7 +51,7 @@ class RegisterForm(FlaskForm):
 
 # TODO: Create a LoginForm to login existing users
 class LoginForm(FlaskForm):
-    email = EmailField("Email", validators=[DataRequired(), my_email_check])
+    email = EmailField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")
 
