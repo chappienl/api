@@ -131,7 +131,6 @@ def register():
         if db.session.execute(db.select(User).where(User.email == request.form.get('email'))).scalar():
             flash("That email is already in our system")
             return render_template("register.html", form=form)
-
         if db.session.execute(db.select(User).where(User.name == request.form.get('username'))).scalar():
             flash("That username is already in our system")
             return render_template("register.html", form=form)
