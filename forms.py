@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, TelField
-from wtforms.validators import DataRequired, URL, ValidationError, Email
+from wtforms import StringField, SubmitField, PasswordField, EmailField
+from wtforms.validators import DataRequired, URL, ValidationError, Email, email_validator
 from flask_ckeditor import CKEditorField
 
 
@@ -40,7 +40,7 @@ def password_data(min=10, max=25):
 
 # TODO: Create a RegisterForm to register new users
 class RegisterForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(), Email()])
+    email = EmailField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired(), password_data(min=10)])
     repeat_password = PasswordField("Re-enter Password", validators=[DataRequired(), password_data(min=10)])
     username = StringField("Username", validators=[DataRequired()])
@@ -51,7 +51,7 @@ class RegisterForm(FlaskForm):
 
 # TODO: Create a LoginForm to login existing users
 class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[DataRequired(), Email()])
+    email = EmailField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Login")
 
