@@ -138,7 +138,7 @@ def register():
             flash("That email is already in our system")
             return render_template("register.html", form=form)
         print('doei')
-        if db.session.get(User, request.form.get("username")):
+        if db.session.execute(db.select(User).where(User.name == request.form.get('username'))).scalar():
             flash("That username is already in our system")
             return render_template("register.html", form=form)
         if request.form.get('password') != request.form.get('repeat_password'):
