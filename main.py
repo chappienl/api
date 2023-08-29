@@ -304,6 +304,5 @@ def contact():
         return render_template("contact.html", title="Contact Me")
 
 
-
 if __name__ == "__main__":
     app.run(debug=False)
